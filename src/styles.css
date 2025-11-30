@@ -1,0 +1,66 @@
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, \"Apple Color Emoji\", \"Segoe UI Emoji\";
+  margin: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+.app {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+.card {
+  width: 320px;
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.display {
+  background: #0b1220;
+  color: #e5e7eb;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 24px;
+  min-height: 48px;
+  word-wrap: break-word;
+}
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+button {
+  background: #1f2937;
+  color: #f9fafb;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+button.operator {
+  background: #0d9488;
+  border-color: #0f766e;
+}
+button.equal {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  grid-column: span 2;
+}
+button.wide {
+  grid-column: span 2;
+}
+.status {
+  margin-top: 12px;
+  font-size: 14px;
+}
+.status.ok {
+  color: #34d399;
+}
+.status.ng {
+  color: #f87171;
+}
