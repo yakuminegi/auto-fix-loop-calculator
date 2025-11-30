@@ -17,6 +17,37 @@ const FakeButton: React.FC<FakeButtonProps> = React.memo(({ label, className, on
   </button>
 ));
 
+// Clock component displayed at the top
+const Clock: React.FC = React.memo(() => {
+  const [now, setNow] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const time = useMemo(
+    () =>
+      now.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }),
+    [now]
+  );
+
+  return (
+    <div
+      className="clock"
+      aria-live="polite"
+      style={{ fontFamily: 'monospace', fontSize: 14, opacity: 0.9, marginBottom: 8 }}
+    >
+      {time}
+    </div>
+  );
+});
+
 function sanitize(expr: string): string {
   return expr.replace(/[^0-9+\-*/().\s]/g, '');
 }
@@ -146,6 +177,7 @@ export default function App() {
   return (
     <div className="app">
       <div className="card">
+        <Clock />
         <h1>Calculator</h1>
         <div style={{ fontSize: 14, opacity: 0.85, marginBottom: 8 }}>自動修正ループテスト</div>
         <div className="display" aria-live="polite">{display}</div>
