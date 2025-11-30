@@ -7,6 +7,16 @@ type TestResult = {
   pass: boolean;
 };
 
+type ButtonDef = { label: string; value?: string; className?: string; onClick?: () => void };
+
+type FakeButtonProps = { label: string; className?: string; onClick?: () => void };
+
+const FakeButton: React.FC<FakeButtonProps> = React.memo(({ label, className, onClick }) => (
+  <button type="button" className={className || ''} onClick={onClick} aria-label={label}>
+    {label}
+  </button>
+));
+
 function sanitize(expr: string): string {
   return expr.replace(/[^0-9+\-*/().\s]/g, '');
 }
@@ -110,7 +120,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const buttons: { label: string; value?: string; className?: string; onClick?: () => void }[] = [
+  const buttons: ButtonDef[] = [
     { label: 'C', onClick: clearAll },
     { label: '←', onClick: backspace },
     { label: '(', value: '(' },
@@ -141,23 +151,22 @@ export default function App() {
         <div className="display" aria-live="polite">{display}</div>
         <div className="keypad">
           {buttons.map((b, i) => (
-            <button
+            <FakeButton
               key={i}
-              className={b.className || ''}
+              label={b.label}
+              className={b.className}
               onClick={
                 b.onClick
                   ? b.onClick
-                  : () => {
-                      if (b.value) append(b.value);
-                    }
+                  : b.value
+                  ? () => append(b.value as string)
+                  : undefined
               }
-            >
-              {b.label}
-            </button>
+            />
           ))}
         </div>
         <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-          <button onClick={runSelfCheck}>Run self-check</button>
+          <FakeButton label="Run self-check" onClick={runSelfCheck} />
         </div>
         {error ? <div className="status ng">Error: {error}</div> : null}
         {testResults && (
