@@ -20,7 +20,7 @@ function evaluateExpression(expr: string): number {
   }
   let result: unknown;
   try {
-    result = Function(`'use strict'; return (${cleaned});`)();
+    result = Function("'use strict'; return (" + cleaned + ");")();
   } catch {
     throw new Error('Invalid expression');
   }
@@ -137,6 +137,7 @@ export default function App() {
     <div className="app">
       <div className="card">
         <h1>Calculator</h1>
+        <div style={{ fontSize: 14, opacity: 0.85, marginBottom: 8 }}>自動修正ループテスト</div>
         <div className="display" aria-live="polite">{display}</div>
         <div className="keypad">
           {buttons.map((b, i) => (
